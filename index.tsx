@@ -4,6 +4,8 @@ import {createRoot} from "react-dom/client";
 
 import "./styles.scss";
 
+navigator.mediaDevices.getUserMedia({ video: true });
+
 interface NotificationPayload {
     type: string,
     [x: string]: any

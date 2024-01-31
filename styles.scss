@@ -22,8 +22,8 @@ div#debug {
 
 div#board {
     display: grid;
-    grid-template-columns: repeat(var(--x), 120px);
-    grid-template-rows: repeat(var(--y), 120px);
+    grid-template-columns: repeat(var(--x), clamp(50px, 15vw, 120px));
+    grid-template-rows: repeat(var(--y), clamp(50px, 15vw, 120px));
     gap: 5px;
 
     position: absolute;

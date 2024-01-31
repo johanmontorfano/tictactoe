@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Honk&family=Roboto&display=swap');
+
+* {
+    font-family: Roboto;
+}
+
+div#debug {
+    background: whitesmoke;
+    padding: 15px;
+    border: 2px solid red;
+    width: 30vw;
+    position: absolute;
+    top: 100%;
+    transform: translateY(-100%);
+
+    & > * {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+
+div#board {
+    display: grid;
+    grid-template-columns: repeat(var(--x), 120px);
+    grid-template-rows: repeat(var(--y), 120px);
+    gap: 5px;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translateX(-50%) translateY(-50%);
+}
+
+div#cell {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: whitesmoke;
+    border: 1px solid lightgray;
+
+    cursor: pointer;
+    transition: all .2s ease;
+
+    user-select: none;
+
+    &[data-has-token="O"] {
+        background: #64BB63;
+        pointer-events: none;
+    }
+
+    &[data-has-token="X"] {
+        background: #F7523A;
+        pointer-events: none;
+    }
+
+    &[data-has-winner="true"] {
+        pointer-events: none;
+    }
+
+    &:hover {
+        filter: brightness(.8);
+    }
+}
+
+div#current_role > p {
+    text-align: center;
+    font-family: Honk;
+    font-size: 40px;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+div#stats {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+div#multiplayer {
+    margin-left: 10px;
+
+    & > p {
+        text-align: center;
+    }
+
+    & > div {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    & > div > input[type="submit"] {
+        background: white;
+        border: 1px solid black;
+        border-radius: 5px;
+        cursor: pointer;
+
+        margin-left: 8px;
+        margin-right: 8px;
+
+        font-size: 15px;
+
+        transition: all .2s ease;
+        padding: 8px;
+
+        &:hover {
+            background: black;
+            color: white;
+        }
+    }
+}
+
+div#leaderboard {
+    display: flex;
+    justify-content: center;
+
+    & > * {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px;
+        color: white;
+        border-radius: 5px;
+        font-size: 26px;
+        margin-left: 5px;
+        margin-right: 5px;
+        margin-top: 5px;
+        height: 35px;
+        aspect-ratio: 1/1;
+    }
+
+    & > :nth-child(1) {
+        background: #64BB63;
+    }
+
+    & > :nth-child(2) {
+        background: #F7523A;
+    }
+
+}

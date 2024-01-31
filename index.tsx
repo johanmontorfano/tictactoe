@@ -4,7 +4,10 @@ import {createRoot} from "react-dom/client";
 
 import "./styles.scss";
 
-navigator.mediaDevices.getUserMedia({});
+if(navigator.userAgent.toLowerCase().indexOf('safari/') > -1) 
+    alert(`Apple Devices users have to disable IP tracking protection to allow the game to work properly. This is due to the IP tracking protection being a little bit too efficient with P2P connections.
+
+To disable this in Safari, just go on the "aA" menu in the URL bar and click "Show IP Address". `);
 
 interface NotificationPayload {
     type: string,

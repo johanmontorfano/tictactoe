@@ -226,7 +226,11 @@ function Board() {
     }, [winner]);
 
     useEffect(() => {
-        if(mode === "ai") OReset();
+        if(mode === "ai") {
+            OReset();
+            setCurrentPlayer("A");
+        }
+        resetMap();
         resetWinner(true);
     }, [mode]);
 

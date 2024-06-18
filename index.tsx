@@ -1,13 +1,7 @@
 import React, {useEffect, useState} from "react";
-import { Peer, DataConnection } from "peerjs";
+import {Peer, DataConnection} from "peerjs";
 import {createRoot} from "react-dom/client";
-
 import "./styles.scss";
-
-if(navigator.userAgent.toLowerCase().indexOf('safari/') > -1) 
-    alert(`Apple Devices users have to disable IP tracking protection to allow the game to work properly. This is due to the IP tracking protection being a little bit too efficient with P2P connections.
-
-To disable this in Safari, just go on the "aA" menu in the URL bar and click "Show IP Address". `);
 
 interface NotificationPayload {
     type: string,
@@ -41,9 +35,7 @@ function matchPatternMap(map: string[], token: string) {
         [0, 4, 8], [2, 4, 6]             // DIAGONALS
     ];
 
-    return patterns.some(pattern => pattern.every(
-        cell => map[cell] === token
-    ));
+    return patterns.some(pattern => pattern.every(cell => map[cell] === token));
 }
 
 /** This hook will internally switch between an AI or P2P player opponent while
@@ -59,7 +51,7 @@ function useAdaptativeOpponent(
     const [connection, setConnection] = useState<DataConnection>();
 
     /** Manages incoming/outgoing P2P connections and counters the effect of
-     * a connected P2P client suddently disconnecting. */
+     * a connected P2P client suddenly disconnecting. */
     useEffect(() => {
         setHookData(prev => ({...prev, mode}));
 
@@ -105,7 +97,6 @@ function useAdaptativeOpponent(
             if(matchPatternMap(tempBoard, PLAYER_B_TOKEN)) {
                 nextIndex = cell;
             }
-
             if(matchPatternMap(tempBoard, PLAYER_A_TOKEN)) {
                 nextIndex = cell;
             }
@@ -238,6 +229,10 @@ function Board() {
         if(mode === "ai") OReset();
         resetWinner(true);
     }, [mode]);
+
+    useEffect(() => {
+        (window as any).debug = (enable: boolean) => setDebug(enable);
+    }, []);
 
     return <div id="container">
         <div id="board" 

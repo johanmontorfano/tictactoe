@@ -278,6 +278,17 @@ function Board() {
             </div>
             
         </div>
+        <div id="footer">
+            <p>by</p>
+            <img alt="Author's logo" 
+                width={30}
+                height={30}
+                src="https://johanmontorfano.com/assets/logo.svg"
+                onClick={
+                    () => window.location.assign("https://johanmontorfano.com")
+                }
+            />
+        </div>
         {debug ? <div id="debug">
             <p>{stats.a} - {stats.b}</p>
             <p>has to play: {currentPlayer}</p>

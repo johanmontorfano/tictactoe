@@ -44,7 +44,8 @@ function useAdaptativeOpponent(
     mode: OpponentData["mode"],
     board: string[],
     play: (cell: number) => void,
-    makeOpponentFirstPlayer: () => void
+    makeOpponentFirstPlayer: () => void,
+    onOpponentDisconnected: () => void
 ) {
     const [hookData, setHookData] = useState<OpponentData>({mode: "ai"});
     const [peer, setPeer] = useState<Peer>();
@@ -143,6 +144,11 @@ function useAdaptativeOpponent(
         });
             
         conn.on("data", processPayload as any);
+
+        conn.on("close", () => {
+            reset();
+            onOpponentDisconnected();
+        });
     }
 
     /** Resets the whole opponent engine to defaults. */
@@ -212,7 +218,8 @@ function Board() {
             updateTokenAt(PLAYER_B_TOKEN, cell);
             setCurrentPlayer("A");
         },
-        () => setCurrentPlayer("B")
+        () => setCurrentPlayer("B"),
+        () => setMode("ai")
     );
 
     useEffect(() => {

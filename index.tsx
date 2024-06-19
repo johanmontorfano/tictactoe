@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Peer, DataConnection} from "peerjs";
 import {createRoot} from "react-dom/client";
 import "./styles.scss";
+import { minimax } from "./math";
 
 interface NotificationPayload {
     type: string,
@@ -21,14 +22,14 @@ interface OpponentData {
     isRemotePeerConnectionLost?: boolean,
 }
 
-const PLAYER_A_TOKEN = "O";
-const PLAYER_B_TOKEN = "X";
-const EMPTY = " ";
-const NONE = "N";
+export const PLAYER_A_TOKEN = "O";
+export const PLAYER_B_TOKEN = "X";
+export const EMPTY = " ";
+export const NONE = "N";
 
 function createPeerID() { return `jm-${(Math.random() * 10e6).toFixed()}`; }
 
-function matchPatternMap(map: string[], token: string) {
+export function matchPatternMap(map: string[], token: string) {
     const patterns = [
         [0, 1, 2], [3, 4, 5], [6, 7, 8], // ROWS
         [0, 3, 6], [1, 4, 7], [2, 5, 8], // COLUMNS
@@ -84,36 +85,11 @@ function useAdaptativeOpponent(
 
     }, [mode]);
 
-    /** Computes the AI's next move. */
-    function nextMove() {
-        let nextIndex = -1;
-        const empties = [...board].map((c, i) => [c, i])
-            .filter(c => c[0] === EMPTY)
-            .map(c => c[1]) as number[];
-
-        empties.forEach(cell => {
-            const tempBoard = [...board];
-            tempBoard[cell] = PLAYER_B_TOKEN;
-
-            if(matchPatternMap(tempBoard, PLAYER_B_TOKEN)) {
-                nextIndex = cell;
-            }
-            if(matchPatternMap(tempBoard, PLAYER_A_TOKEN)) {
-                nextIndex = cell;
-            }
-        });
-
-        if(nextIndex === -1) 
-            nextIndex = empties[parseInt(Math.random() * empties.length as any)]
-
-        return nextIndex;
-    }
-
     /** Processes any incoming payload, either local or from the P2P 
      * connection. */
     function processPayload(payload: NotificationPayload) {
         if(mode === "ai" && payload.type === "play") { 
-            setTimeout(() => play(nextMove()), 100);
+            setTimeout(() => play(minimax(board)), 100);
         }
         
         if(mode === "p2p" && payload.type === "play")
